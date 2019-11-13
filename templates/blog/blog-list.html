@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+
+{% block newsletter %}
+    {% include 'partials/newsletter.html' %}
+{% endblock %}
+
+
+{% block content %}
+    {#post_list#}
+   {% for post in posts %}
+        {% include 'partials/post_list_snippet.html' with instance=post %}
+    {% endfor %}
+
+    {#pagination#}
+    {% include 'partials/pagination.html' %}
+{% endblock %}

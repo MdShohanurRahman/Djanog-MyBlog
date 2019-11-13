@@ -1,0 +1,82 @@
+{% extends 'layouts/base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<header class="blog-post-header">
+    <p class="h1 card-title mb-1">{{ post.title }}</p>
+
+    <div class="meta mb-3"><span class="date">Published {{post.created|timesince}} ago</span><span class="time">{{ read_time }} min read</span><span class="comment"><a href="#">4 comments</a></span></div>
+
+    {# <p class="tags">Tags: {{ post.tags.all|join:", " }}</p> #}
+    {%for tag in post.tags.all%}
+    <div class="badge badge-primary mb-2 p-1">{{tag.name}}</div>
+    {%endfor%}
+
+
+</header>
+
+
+<div class="blog-post-body">
+    <div class="row justify-content-center">
+
+       <div class="col-md-6">
+        <div class="card mb-2">
+            <div class="card-body">
+                {{post.description}}
+            </div>
+        </div>
+        <ul id="toc"></ul>
+    </div>
+
+    <div class="col-md-6">
+        <div class="img-fluid mb-2">
+            <a href="{{ post.get_absolute_url }}"><img class="img-fluid" src="{{ post.image.url }}" alt="image"></a>
+        </div>
+
+    </div>
+
+</div>
+<p>{{ post.body|safe }}</p>
+</div>
+
+{# blog comment #}
+
+
+
+<!--//related post-section-->
+<section class="promo-section theme-bg-light py-5 text-center">
+  <div class="container">
+     <p class="h1 card-title">Related Post</p>
+     <p>You can use this section to promote your side projects etc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
+     <div class="promo-figure">
+         <a href="https://made4dev.com" target="_blank"><img class="img-fluid" src="assets/images/promo-banner.jpg" alt="image"></a>
+     </div>
+ </div><!--//container-->
+</section>
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" />
+{% endblock %}
+
+{% block script %}
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="{% static 'assets/plugins/toc/jquery.toc.min.js' %}"></script>
+
+<script type="text/javascript">
+$("#toc").toc({content: "div.container", headings: "h1,h2,h3"});
+</script>
+
+{% endblock %}
