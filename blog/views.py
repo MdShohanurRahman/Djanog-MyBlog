@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
+from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 
 # Create your views here.
 from blog.models import Post
@@ -15,9 +17,38 @@ def post_list(request):
 def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)
     read_time = len(post.body.split())//50
-    print(len(post.body.split()))
+
+    is_liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        is_liked=True
+
     context = {
         'post':post,
-        'read_time':read_time
+        'read_time':read_time,
+        'is_liked':is_liked,
+        'total_likes':post.total_likes()
+
     }
     return render(request,'blog/blog-details.html',context)
+
+
+def like_post(request):
+    post=get_object_or_404(Post,id=request.POST.get('post_id')) #came from value=post.id
+    # post=get_object_or_404(Post,id=request.POST.get('id')) #came from value=post.id
+    is_liked =False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        is_liked=False
+    else:
+        post.likes.add(request.user)
+        is_liked=True
+
+    context = {
+        'post': post,
+        'is_liked': is_liked,
+        'total_likes': post.total_likes()
+    }
+
+    if request.is_ajax():
+        html=render_to_string('blog/like-section.html',context,request=request)
+        return JsonResponse ({'form':html})

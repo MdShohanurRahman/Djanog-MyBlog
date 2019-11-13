@@ -1,0 +1,20 @@
+  <span class="comment">
+      {{ total_likes }} like{{ total_likes | pluralize }}
+  </span>
+
+  <span>
+    {% if request.user.is_authenticated %}
+    <form action="{% url 'blog:like_post' %}" method="post">
+        {% csrf_token %}
+
+        {% if is_liked %}
+        <button type="submit" id="like" name="post_id" value="{{ post.id }}" class="dislike"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button>
+        {% else %}
+        <button  type="submit" id="like" name="post_id" value="{{ post.id }}" class="like"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+
+        {% endif %}
+    </form>
+    {% endif %}
+</span>
+
+
