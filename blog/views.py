@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Q
 from blog.models import *
 from taggit.models import Tag
 
@@ -32,6 +33,18 @@ def post_list(request,category_id=None):
     }
     return render(request, 'blog/blog-list.html',context)
 
+
+# def post_list_by_tag(request,tag_slug):
+    
+#     tag = get_object_or_404(Tag,id=tag_slug.id)
+#     posts = posts.filter(tags__in=[tag])
+
+#     context = {
+#         'tag':tag,
+#         'posts':posts
+#     }
+    
+    return render(request, 'blog/blog-list.html',context)
 
 def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)
@@ -77,3 +90,27 @@ def like_post(request):
     if request.is_ajax():
         html=render_to_string('blog/like-section.html',context,request=request)
         return JsonResponse ({'form':html})
+
+
+def search_post(request):
+    posts = Post.objects.all()
+    search = request.GET.get('q')
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    
+    if search:
+        posts=posts.filter(
+        Q(title__icontains=search)|
+        Q(body__icontains=search)|
+        Q(description__icontains=search)
+        #icontains means case insensative
+    )
+
+    context = {
+    'posts':posts,
+    'search':search,
+    'categories':categories,
+    'tags':tags,
+    }
+
+    return render(request, 'blog/blog-list.html',context)

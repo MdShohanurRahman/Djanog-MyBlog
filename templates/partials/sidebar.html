@@ -4,9 +4,9 @@
     <div class="search">
       <p class="title h6 text-white p-1 d-inline-block bg-primary rounded">Search</p>
 
-      <form class="input-group" action="" method="GET">
-        <input type="text" class="form-control" name="search" placeholder="Search"
-        value="">
+      <form class="input-group" action="{%url 'blog:search_post'%}" method="GET">
+        <input type="text" class="form-control" name="q" placeholder="Search"
+        value="{{request.GET.q}}">
 
       </form>
     </div>
@@ -32,13 +32,13 @@
 
     <hr>
 
-<br>
+
       <p class="title h6 text-white p-1 d-inline-block bg-primary rounded">Tags</p>
     <div class="gap-multiline-items-1">
 
       {%for tag in tags%}
       <div class="text-capitalize badge badge-dark mb-2 p-1">
-         <a href="#">{{tag.name}}</a>
+         <a href="">{{tag.name}}</a>
       </div>
      
       {%endfor%}
