@@ -21,7 +21,7 @@ def post_list(request):
 def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)
     read_time = len(post.body.split())//50
-    related_posts = post.objects.filter(category=post.category).exclude(id=id)[:4]
+    related_posts = Post.objects.filter(category=post.category).exclude(id=id)[:4]
 
     is_liked = False
     if post.likes.filter(id=request.user.id).exists():
@@ -29,6 +29,7 @@ def post_details(request, id, slug):
 
     context = {
         'post':post,
+        'related_posts':related_posts,
         'read_time':read_time,
         'is_liked':is_liked,
         'total_likes':post.total_likes()

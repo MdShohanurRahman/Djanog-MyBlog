@@ -58,18 +58,26 @@
 {# blog comment #}
 
 
+<br>
+<hr>
 
-                <!--//related post-section-->
-                <section class="promo-section theme-bg-light py-5 text-center">
-                  <div class="container">
-                     <p class="h1 card-title">Related Post</p>
-                     <p>You can use this section to promote your side projects etc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
-                     <div class="promo-figure">
-                         <a href="https://made4dev.com" target="_blank"><img class="img-fluid" src="assets/images/promo-banner.jpg" alt="image"></a>
-                     </div>
-                 </div><!--//container-->
-             </section>
-             {% endblock %}
+<!--//related post-section-->
+{%if related_posts%}
+<section class="blog-list mt-3">
+    <p class="title h4 text-white p-1 my-2 d-inline-block bg-primary rounded">Related Post In {{post.category|capfirst}}</p>
+
+    <div class="my-2">
+        {#post_list#}
+        {% for post in related_posts %}
+        {% include 'partials/post_list_snippet.html' with instance=post %}
+        {% endfor %}
+    </div>
+</section>
+
+{%endif%}
+
+
+{% endblock %}
 
 
 
