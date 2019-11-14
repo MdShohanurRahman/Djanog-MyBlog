@@ -4,9 +4,15 @@
         <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{ instance.image.url }}" alt="image">
         <div class="media-body">
             <h3 class="title mb-1"><a href="{{ instance.get_absolute_url }}">{{ instance.title }}</a></h3>
-            <div class="meta mb-1"><span class="date">Published {{instance.created|timesince}} ago</span><span class="time">5 min read</span><span class="comment"><a href="#">8 comments</a></span></div>
+            <div class="meta mb-1"><span class="date">Published {{instance.created|timesince}} ago</span><span class="time">5 min read</span>
+            	<span class="comment"><a href="#">{{instance.total_likes}} like{{ instance.total_likes | pluralize }}</a></span></div>
 
-            <a class="more-link" href="{{ instance.get_absolute_url }}">Read more &rarr;</a>
+            <div> 
+            	{{instance.description|truncatewords:10}}
+            	<br>
+            	<a class="more-link" href="{{ instance.get_absolute_url }}">Read more &rarr;</a>
+            	
+            </div>
         </div><!--//media-body-->
     </div><!--//media-->
 </div><!--//item-->

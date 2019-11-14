@@ -8,12 +8,12 @@
     <p class="h1 card-title mb-1">{{ post.title }}</p>
 
     <div class="meta mb-3"><span class="date">Published {{post.created|timesince}} ago</span><span class="time">{{ read_time }} min read</span>
-        
-<span>
-        <div id = 'like-section'>
-        {% include 'blog/like-section.html' %}
-    </div>
-</span>
+
+        <span>
+            <div id = 'like-section'>
+                {% include 'blog/like-section.html' %}
+            </div>
+        </span>
 
         
     </div>
@@ -30,7 +30,7 @@
 <div class="blog-post-body">
     <div class="row justify-content-center">
 
-     <div class="col-md-6">
+       <div class="col-md-6">
         <div class="card mb-2">
             <div class="card-body">
                 {{post.description}}
@@ -52,71 +52,71 @@
 
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <div class="addthis_inline_share_toolbox"></div>
-            
+
 </div>
 
 {# blog comment #}
 
 
 
-<!--//related post-section-->
-<section class="promo-section theme-bg-light py-5 text-center">
-  <div class="container">
-   <p class="h1 card-title">Related Post</p>
-   <p>You can use this section to promote your side projects etc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
-   <div class="promo-figure">
-       <a href="https://made4dev.com" target="_blank"><img class="img-fluid" src="assets/images/promo-banner.jpg" alt="image"></a>
-   </div>
-</div><!--//container-->
-</section>
-{% endblock %}
+                <!--//related post-section-->
+                <section class="promo-section theme-bg-light py-5 text-center">
+                  <div class="container">
+                     <p class="h1 card-title">Related Post</p>
+                     <p>You can use this section to promote your side projects etc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
+                     <div class="promo-figure">
+                         <a href="https://made4dev.com" target="_blank"><img class="img-fluid" src="assets/images/promo-banner.jpg" alt="image"></a>
+                     </div>
+                 </div><!--//container-->
+             </section>
+             {% endblock %}
 
 
 
 
 
-{% block css %}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" />
-<style>
-    button.like{
-    width: 30px;
-    height: 30px;
-    margin: 0 auto;
-    line-heigth: 50px;
-    border-radius: 50%;
-    color: rgba(0,150,136 ,1);
-    background-color:rgba(38,166,154 ,0.3);
-    border-color: rgba(0,150,136 ,1);
-    border-width: 1px;
-    font-size: 15px;
-}
+             {% block css %}
+             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" />
+             <style>
+             button.like{
+                width: 30px;
+                height: 30px;
+                margin: 0 auto;
+                line-heigth: 50px;
+                border-radius: 50%;
+                color: rgba(0,150,136 ,1);
+                background-color:rgba(38,166,154 ,0.3);
+                border-color: rgba(0,150,136 ,1);
+                border-width: 1px;
+                font-size: 15px;
+            }
 
-button.dislike{
-    width: 30px;
-    height: 30px;
-    margin: 0 auto;
-    line-heigth: 50px;
-    border-radius: 50%;
-    color: rgba(255,82,82 ,1);
-    background-color: rgba(255,138,128 ,0.3);
-    border-color: rgba(255,82,82 ,1);
-    border-width: 1px;
-    font-size: 15px;
-}
-</style>
-{% endblock %}
+            button.dislike{
+                width: 30px;
+                height: 30px;
+                margin: 0 auto;
+                line-heigth: 50px;
+                border-radius: 50%;
+                color: rgba(255,82,82 ,1);
+                background-color: rgba(255,138,128 ,0.3);
+                border-color: rgba(255,82,82 ,1);
+                border-width: 1px;
+                font-size: 15px;
+            }
+            </style>
+            {% endblock %}
 
-{% block script %}
+            {% block script %}
 
-<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-<script src="{% static 'assets/plugins/toc/jquery.toc.min.js' %}"></script>
+            <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+            <script>hljs.initHighlightingOnLoad();</script>
+            <script src="{% static 'assets/plugins/toc/jquery.toc.min.js' %}"></script>
 
-<script type="text/javascript">
-$("#toc").toc({content: "div.container", headings: "h1,h2,h3"});
-</script>
+            <script type="text/javascript">
+            $("#toc").toc({content: "div.container", headings: "h1,h2,h3"});
+            </script>
 
-<!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5db2b8eb28c742ed"></script>
+            <!-- Go to www.addthis.com/dashboard to customize your tools -->
+            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5db2b8eb28c742ed"></script>
 
-{% endblock %}
+            {% endblock %}
