@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 # Create your views here.
 from blog.models import Post
@@ -8,6 +9,9 @@ from blog.models import Post
 
 def post_list(request):
     posts = Post.objects.all()
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     context = {
         'posts' : posts,
     }
@@ -17,6 +21,7 @@ def post_list(request):
 def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)
     read_time = len(post.body.split())//50
+    related_posts = post.objects.filter(category=post.category).exclude(id=id)[:4]
 
     is_liked = False
     if post.likes.filter(id=request.user.id).exists():

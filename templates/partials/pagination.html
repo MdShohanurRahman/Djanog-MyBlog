@@ -1,4 +1,39 @@
-<nav class="blog-nav nav nav-justified my-5">
-  <a class="nav-link-prev nav-item nav-link d-none rounded-left" href="#">Previous<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
-  <a class="nav-link-next nav-item nav-link rounded" href="blog-list.html">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+<nav class="blog-nav nav nav-justified my-5 row justify-content-center">
+  {% if posts.has_other_pages %}
+    <ul class="pagination">
+        {% if posts.has_previous %}
+            <li class="page-item"><a class="page-link"
+                                     href="?page={{ posts.previous_page_number }}"> &laquo; Previous</a></li>
+        {% else %}
+            <div class="disabled bg-dark d-inline-block">
+                <li class="page-item"><span class="page-link"> &laquo; Previous</span></li>
+            </div>
+        {% endif %}
+        {% for i in posts.paginator.page_range %}
+            {% if posts.number == i %}
+                <div class="page-item bg-light p-1">
+                    <li><span class="px-1 ">{{ i }}</span></li>
+                </div>
+
+                {% elif i > posts.number|add:'-3' and i < posts.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if posts.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">Next &raquo;</a>
+            </li>
+        {% else %}
+            <div class="disabled">
+                <li class="page-item"><span class="page-link">Next &raquo;</span></li>
+            </div>
+        {% endif %}
+    </ul>
+{% endif %}
 </nav>
+
+
+
+            
+   
+
+
