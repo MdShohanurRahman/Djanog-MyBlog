@@ -9,17 +9,25 @@ from taggit.models import Tag
 
 
 
-def post_list(request):
+def post_list(request,category_id=None):
     posts = Post.objects.all()
-    paginator = Paginator(posts, 2)
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
+    
     categories = Category.objects.all()
     tags = Tag.objects.all()
+    category = None
+
+    if category_id:
+        category = get_object_or_404(Category,id=category_id)
+        posts = posts.filter(category=category.id)
+
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)  
     context = {
         'posts' : posts,
         'categories':categories,
         'tags':tags,
+        'category':category,
 
     }
     return render(request, 'blog/blog-list.html',context)

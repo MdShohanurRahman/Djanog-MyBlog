@@ -6,9 +6,14 @@
 
 
 {% block content %}
+	{% if category%}
+	<h2>All Posts from "{{ category.name|capfirst }}"</h2>
+	{% endif %}
     {#post_list#}
    {% for post in posts %}
         {% include 'partials/post_list_snippet.html' with instance=post %}
+        {%empty%}
+        <div>No Posts found</div>
     {% endfor %}
 
     {#pagination#}

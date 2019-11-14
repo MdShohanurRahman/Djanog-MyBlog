@@ -22,7 +22,7 @@
 
         {%for category in categories%}
          <div class="text-muted text-capitalize">
-            <a href="#">{{category.name}}</a>
+            <a href="{% url 'blog:post_list_by_category' category.id %}">{{category.name}}</a>
          </div>
         {%endfor%}
 
