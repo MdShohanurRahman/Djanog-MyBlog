@@ -1,5 +1,5 @@
 import os,django,random
-
+from taggit.models import Tag
 os.environ.setdefault("DJANGO_SETTINGS_MODULE","Django_MyBlog.settings")
 django.setup()
 

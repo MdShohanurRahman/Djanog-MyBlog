@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from blog.models import *
+from taggit.models import Tag
 
 # Create your views here.
-from blog.models import Post
+
 
 
 def post_list(request):
@@ -12,14 +14,21 @@ def post_list(request):
     paginator = Paginator(posts, 2)
     page = request.GET.get('page')
     posts = paginator.get_page(page)
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
     context = {
         'posts' : posts,
+        'categories':categories,
+        'tags':tags,
+
     }
     return render(request, 'blog/blog-list.html',context)
 
 
 def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
     read_time = len(post.body.split())//50
     related_posts = Post.objects.filter(category=post.category).exclude(id=id)[:4]
 
@@ -32,7 +41,9 @@ def post_details(request, id, slug):
         'related_posts':related_posts,
         'read_time':read_time,
         'is_liked':is_liked,
-        'total_likes':post.total_likes()
+        'total_likes':post.total_likes(),
+        'categories':categories,
+        'tags':tags,
 
     }
     return render(request,'blog/blog-details.html',context)
