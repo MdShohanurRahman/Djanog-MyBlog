@@ -47,8 +47,8 @@ class Post(models.Model):
     """
     post model with different relationship
     """
-    # object=models.Manager() #our default manager
-    # published=PublishedManager() #our custom manager
+    objects = models.Manager() #our default manager
+    published = PublishedManager() #our custom manager
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),

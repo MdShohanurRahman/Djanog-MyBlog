@@ -12,7 +12,9 @@ from .forms import *
 
 
 def post_list(request,category_slug=None,tag_slug=None):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(status="published")
+    # posts = Post.published.all()
+    top_posts = Post.published.all().order_by('-created')[:3]
     # categories = Category.objects.all()
     categories = Category.objects.values("name","slug").annotate(Count("categories")) 
     tags = Tag.objects.all()
@@ -35,6 +37,7 @@ def post_list(request,category_slug=None,tag_slug=None):
     posts = paginator.get_page(page)  
     context = {
         'posts' : posts,
+        'top_posts':top_posts,
         'categories':categories,
         'tags':tags,
         'category':category,
@@ -47,10 +50,13 @@ def post_list(request,category_slug=None,tag_slug=None):
 
 def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)
+    top_posts = Post.published.all().order_by('-created')[:3]
+    related_posts = Post.published.filter(category=post.category).exclude(id=id)[:4]
+
     categories = Category.objects.values("name","slug").annotate(Count("categories")) 
     tags = Tag.objects.all()
     read_time = len(post.body.split())//50
-    related_posts = Post.objects.filter(category=post.category).exclude(id=id)[:4]
+    
     comments = Comment.objects.filter(post=post, reply=None).order_by('-id')
 
     is_liked = False
@@ -76,6 +82,7 @@ def post_details(request, id, slug):
 
     context = {
         'post':post,
+        'top_posts':top_posts,
         'related_posts':related_posts,
         'read_time':read_time,
         'is_liked':is_liked,
@@ -117,7 +124,8 @@ def like_post(request):
 
 
 def search_post(request):
-    posts = Post.objects.all()
+    posts = Post.published.all()
+    top_posts = Post.published.all().order_by('-created')[:3]
     search = request.GET.get('q')
     categories = Category.objects.values("name","slug").annotate(Count("categories")) 
     tags = Tag.objects.all()
@@ -135,6 +143,7 @@ def search_post(request):
     'search':search,
     'categories':categories,
     'tags':tags,
+    'top_posts':top_posts,
     }
 
     return render(request, 'blog/blog-list.html',context)
