@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Q
+from django.db.models import Q,Count
 from blog.models import *
 from .forms import *
 # from taggit.models import Tag
@@ -13,9 +13,10 @@ from .forms import *
 
 def post_list(request,category_slug=None,tag_slug=None):
     posts = Post.objects.all()
-    
-    categories = Category.objects.all()
+    # categories = Category.objects.all()
+    categories = Category.objects.values("name","slug").annotate(Count("categories")) 
     tags = Tag.objects.all()
+
     category = None
     tag = None
 
@@ -37,7 +38,7 @@ def post_list(request,category_slug=None,tag_slug=None):
         'categories':categories,
         'tags':tags,
         'category':category,
-        'tag':tag
+        'tag':tag,
 
     }
     return render(request, 'blog/blog-list.html',context)
@@ -46,7 +47,7 @@ def post_list(request,category_slug=None,tag_slug=None):
 
 def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)
-    categories = Category.objects.all()
+    categories = Category.objects.values("name","slug").annotate(Count("categories")) 
     tags = Tag.objects.all()
     read_time = len(post.body.split())//50
     related_posts = Post.objects.filter(category=post.category).exclude(id=id)[:4]
@@ -118,7 +119,7 @@ def like_post(request):
 def search_post(request):
     posts = Post.objects.all()
     search = request.GET.get('q')
-    categories = Category.objects.all()
+    categories = Category.objects.values("name","slug").annotate(Count("categories")) 
     tags = Tag.objects.all()
     
     if search:

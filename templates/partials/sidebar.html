@@ -1,5 +1,5 @@
 <div class="col-md-4 col-xl-3 mt-md-5">
-  <div class="sidebar px-4 py-md-0">
+  <div class="sidebar px-1 py-md-0">
 
     <div class="search">
       <p class="title h6 text-white p-1 d-inline-block bg-primary rounded">Search</p>
@@ -13,43 +13,39 @@
 
     <hr>
 
-<div class="category">
+    <div class="category">
       <p class="h6 text-white p-1 d-inline-block bg-primary rounded">Categories</p>
 
-    <div class="row link-color-default fs-14 lh-24">
-
-      <div class="col-6 ">
-
+      <ul class="list-group list-group-flush">
         {%for category in categories%}
-         <div class="text-muted text-capitalize">
-            <a href="{% url 'blog:post_list_by_category' category.slug %}">{{category.name}}</a>
-         </div>
-        {%endfor%}
-
-      </div>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{% url 'blog:post_list_by_category' category.slug %}">{{category.name}}</a>
+          <span class="badge badge-primary badge-pill">{{category.categories__count}}</span>
+        </li>
+         {%endfor%}
+      </ul>
     </div>
-</div>
 
     <hr>
 
 
-      <p class="title h6 text-white p-1 d-inline-block bg-primary rounded">Tags</p>
-    <div class="gap-multiline-items-1">
+    <p class="title h6 text-white p-1 d-inline-block bg-primary rounded">Tags</p>
+    <div class="text-capitalize">
 
       {%for tag in tags%}
       <div class="text-capitalize badge badge-dark mb-2 p-1">
-         <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{tag.name}}</a>
-      </div>
+       <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{tag.name}}</a>
+     </div>
      
-      {%endfor%}
+     {%endfor%}
 
-    </div>
+   </div>
 
-    <hr>
+   <hr>
 
-    <h6 class="sidebar-title">About</h6>
-    <p class="small-3">TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.</p>
+   <h6 class="sidebar-title">About</h6>
+   <p class="small-3">TheSaaS is a responsive, professional, and multipurpose SaaS, Software, Startup and WebApp landing template powered by Bootstrap 4. TheSaaS is a powerful and super flexible tool for any kind of landing pages.</p>
 
 
-  </div>
+ </div>
 </div>
