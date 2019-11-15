@@ -60,9 +60,17 @@ CKEDITOR_CONFIGS = {
             ['Smiley', 'SpecialChar'],['CodeSnippet'], ['Source'],
         ],
         'extraPlugins' : 'codesnippet',
-
-
     },
+
+    'special': {
+        'toolbar': 'Special',
+        'height': 300,
+        'width': '100%',
+        'toolbar_Special': [
+            ['Styles','Format','Bold','CodeSnippet'],
+        ],
+        'extraPlugins' : 'codesnippet',
+    }
 }
 
 

@@ -62,3 +62,12 @@ def pre_save_slug(sender, **kwargs):
 
 
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reply = models.ForeignKey('self',on_delete=models.CASCADE, null=True, related_name='replies')
+    content = RichTextUploadingField(blank=True, null=True, config_name='special')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.post.title + ' by' + self.user.username

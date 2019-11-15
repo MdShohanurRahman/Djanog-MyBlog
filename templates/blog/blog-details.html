@@ -53,9 +53,16 @@
 <!-- Go to www.addthis.com/dashboard to customize your tools -->
 <div class="addthis_inline_share_toolbox"></div>
 
-</div>
 
 {# blog comment #}
+{% if not post.restrict_comment %}
+    <div class="main-comment-section">
+        {% include 'blog/comments.html' %}
+    </div>
+{% endif %}
+</div>
+{# end blog comment #}
+
 
 
 <br>

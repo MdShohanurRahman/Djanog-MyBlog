@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from blog.models import *
+from .forms import *
 from taggit.models import Tag
 
 # Create your views here.
@@ -52,10 +53,28 @@ def post_details(request, id, slug):
     tags = Tag.objects.all()
     read_time = len(post.body.split())//50
     related_posts = Post.objects.filter(category=post.category).exclude(id=id)[:4]
+    comments = Comment.objects.filter(post=post, reply=None).order_by('-id')
 
     is_liked = False
     if post.likes.filter(id=request.user.id).exists():
         is_liked=True
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST or None)
+        if comment_form.is_valid():
+            content = request.POST.get('content')  # content is the attr of model named comment
+            reply_id = request.POST.get('comment_id')
+            comment_qs = None
+
+            if reply_id:
+                comment_qs = Comment.objects.get(id=reply_id)
+                
+            comments = Comment.objects.create(post=post, user=request.user, content=content, reply=comment_qs)
+            comments.save()
+            return HttpResponseRedirect(post.get_absolute_url())
+    
+    else:
+        comment_form = CommentForm()
 
     context = {
         'post':post,
@@ -65,8 +84,15 @@ def post_details(request, id, slug):
         'total_likes':post.total_likes(),
         'categories':categories,
         'tags':tags,
+        'comments': comments,
+        'comment_form': comment_form,
 
     }
+
+    if request.is_ajax():
+        html = render_to_string('blog/comments.html', context, request=request)
+        return JsonResponse({'form': html})
+
     return render(request,'blog/blog-details.html',context)
 
 
