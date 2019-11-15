@@ -11,16 +11,23 @@ from .forms import *
 
 
 
-def post_list(request,category_id=None):
+def post_list(request,category_slug=None,tag_slug=None):
     posts = Post.objects.all()
     
     categories = Category.objects.all()
     tags = Tag.objects.all()
     category = None
+    tag = None
 
-    if category_id:
-        category = get_object_or_404(Category,id=category_id)
-        posts = posts.filter(category=category.id)
+    if category_slug:
+        category = get_object_or_404(Category,slug=category_slug)
+        posts = posts.filter(category=category)
+
+
+    if tag_slug:
+        tag = get_object_or_404(Tag,slug=tag_slug)
+        posts = Post.objects.filter(tags=tag)
+
 
     paginator = Paginator(posts, 2)
     page = request.GET.get('page')
@@ -30,22 +37,12 @@ def post_list(request,category_id=None):
         'categories':categories,
         'tags':tags,
         'category':category,
+        'tag':tag
 
     }
     return render(request, 'blog/blog-list.html',context)
 
 
-# def post_list_by_tag(request,tag_slug):
-    
-#     tag = get_object_or_404(Tag,id=tag_slug.id)
-#     posts = posts.filter(tags__in=[tag])
-
-#     context = {
-#         'tag':tag,
-#         'posts':posts
-#     }
-    
-    return render(request, 'blog/blog-list.html',context)
 
 def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)

@@ -11,6 +11,9 @@
 	<h2>All Posts from "{{ category.name|capfirst }}"</h2>
 	{% endif %}
 
+	{% if tag%}
+	<h2>All Posts from "{{ tag.name|capfirst }}"</h2>
+	{% endif %}
 
 	{%if search%}
 	<div class="text-center text-muted h5">

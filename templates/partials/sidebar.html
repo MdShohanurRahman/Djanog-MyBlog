@@ -22,7 +22,7 @@
 
         {%for category in categories%}
          <div class="text-muted text-capitalize">
-            <a href="{% url 'blog:post_list_by_category' category.id %}">{{category.name}}</a>
+            <a href="{% url 'blog:post_list_by_category' category.slug %}">{{category.name}}</a>
          </div>
         {%endfor%}
 
@@ -38,7 +38,7 @@
 
       {%for tag in tags%}
       <div class="text-capitalize badge badge-dark mb-2 p-1">
-         <a href="">{{tag.name}}</a>
+         <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{tag.name}}</a>
       </div>
      
       {%endfor%}

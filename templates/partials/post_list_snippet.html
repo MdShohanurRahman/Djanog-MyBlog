@@ -1,7 +1,9 @@
 {% load static %}
 <div class="item mb-5">
     <div class="media">
+        {%if instance.image%}
         <img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{ instance.image.url }}" alt="image">
+        {%endif%}
         <div class="media-body">
             <div class="title mb-1 h4"><a href="{{ instance.get_absolute_url }}">{{ instance.title }}</a></div>
             <div class="meta mb-1"><span class="date">Published {{instance.created|timesince}} ago</span><span class="time">5 min read</span>
