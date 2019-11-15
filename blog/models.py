@@ -6,25 +6,47 @@ from django.urls import reverse
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.utils.text import slugify
-from taggit.managers import TaggableManager
+
 
 
 # Create your models here.
-# custom model manager
-# filtering which status is =published
+
+
 class PublishedManager(models.Manager):
+    """
+    custom model manager.filtering which status is =published
+    """
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(status="published")
 
 class Category(models.Model):
+    """
+    many to many relation with posts
+    """
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=120)
     thumbnail = models.ImageField(upload_to='images/category', blank=True, null=True)
 
     def __str__(self):
         return self.name
 
 
+class Tag(models.Model):
+    """
+    many to many relation with posts
+    """
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=120)
+
+    def __str__(self):
+        return self.name
+    
+
+
 class Post(models.Model):
+    """
+    post model with different relationship
+    """
     # object=models.Manager() #our default manager
     # published=PublishedManager() #our custom manager
     STATUS_CHOICES = (
@@ -38,8 +60,8 @@ class Post(models.Model):
     body = RichTextUploadingField()
     image = models.ImageField(upload_to='images/post', blank=True, null=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = TaggableManager()
+    category = models.ForeignKey(Category, related_name='post_category', on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, related_name='post_tag', blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
@@ -63,6 +85,9 @@ def pre_save_slug(sender, **kwargs):
 
 
 class Comment(models.Model):
+    """
+    user commenting system and reply
+    """
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     reply = models.ForeignKey('self',on_delete=models.CASCADE, null=True, related_name='replies')
@@ -71,3 +96,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.post.title + ' by' + self.user.username
+

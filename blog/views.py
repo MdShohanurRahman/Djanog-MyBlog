@@ -5,7 +5,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from blog.models import *
 from .forms import *
-from taggit.models import Tag
+# from taggit.models import Tag
 
 # Create your views here.
 

@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'blog',
     'ckeditor',
     'ckeditor_uploader',
-    'taggit',
 ]
 
 CKEDITOR_UPLOAD_PATH = "cke/uploads/images"
