@@ -4,9 +4,9 @@
             {% csrf_token %}
             {{ comment_form.as_p }}
             {% if request.user.is_authenticated %}
-                <input type="submit" value="Submit" class="btn btn-success">
+                <input type="submit" value="Submit" class="btn btn-success btn-sm">
             {% else %}
-                <input type="submit" value="Submit" class="btn btn-success" disabled>
+                <input type="submit" value="Submit" class="btn btn-success btn-sm" disabled>
             {% endif %}
         </form>
     </div>
@@ -47,9 +47,9 @@
                 {{ comment_form.as_p }}
                 
                 {% if request.user.is_authenticated %}
-                    <input type="submit" value="Submit" class="btn btn-success">
+                    <input type="submit" value="Submit" class="btn btn-success btn-sm">
                 {% else %}
-                    <input type="submit" value="Submit" class="btn btn-success" disabled>
+                    <input type="submit" value="Submit" class="btn btn-success btn-sm" disabled>
                 {% endif %}
             </form>
         </div>
