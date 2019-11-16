@@ -34,7 +34,7 @@ def create_post(N):
 
         id=random.randint(1,5)
         title=fake.name()
-        status=random.choice(["published","draft"])
+        # status=random.choice(["published","draft"])
         tag1 = Tag.objects.get(id=random.randint(1,2))
         tag2 = Tag.objects.get(id=random.randint(3,5))
         post = Post.objects.create(title=title+"post!!!",
@@ -44,7 +44,8 @@ def create_post(N):
             description = fake.text(),
             body = fake.text(),
             created = timezone.now(),
-            updated = timezone.now(),)
+            updated = timezone.now(),
+            status = status )
 
         post.tags.add(tag1,tag2)
         

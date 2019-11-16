@@ -8,7 +8,7 @@
     <p class="h1 card-title mb-1">{{ post.title }}</p>
 
     <div class="meta mb-3"><span class="date">Published {{post.created|timesince}} ago</span><span class="time">{{ read_time }} min read</span>
-
+        <span class="comment">{{page_views}} views</span>
         <span>
             <div id = 'like-section'>
                 {% include 'blog/like-section.html' %}
@@ -22,6 +22,7 @@
     {%for tag in post.tags.all%}
     <div class="badge badge-dark mb-2 p-1">{{tag.name}}</div>
     {%endfor%}
+    
 </header>
 
 
@@ -88,11 +89,7 @@
 
 {% endblock %}
 
-
-
-
-
-             {% block css %}
+{% block css %}
              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" />
              <style>
              button.like{
@@ -123,17 +120,21 @@
             </style>
             {% endblock %}
 
-            {% block script %}
 
-            <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
-            <script>hljs.initHighlightingOnLoad();</script>
-            <script src="{% static 'assets/plugins/toc/jquery.toc.min.js' %}"></script>
 
-            <script type="text/javascript">
-            $("#toc").toc({content: "div.container", headings: "h1,h2,h3"});
-            </script>
+             
 
-            <!-- Go to www.addthis.com/dashboard to customize your tools -->
-            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5db2b8eb28c742ed"></script>
+{% block script %}
 
-            {% endblock %}
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="{% static 'assets/plugins/toc/jquery.toc.min.js' %}"></script>
+
+<script type="text/javascript">
+$("#toc").toc({content: "div.container", headings: "h1,h2,h3"});
+</script>
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5db2b8eb28c742ed"></script>
+
+{% endblock %}

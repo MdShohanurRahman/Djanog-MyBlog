@@ -22,6 +22,25 @@ def get_category_count():
     return queryset
 
 
+def page_view(post):
+    """
+    count the number of hits in desire url
+    parameter post come from instance of single post
+    """
+    page_view = PageView.objects.filter(post = post)
+    if(page_view.count()<=0):
+        x=PageView.objects.create(
+            post = post
+            )
+        x.save()
+    else:
+        x = page_view.first()
+        x.hits = x.hits+1
+        x.save()
+
+    return x.hits
+
+
 
 def post_list(request,category_slug=None,tag_slug=None):
     posts = Post.objects.filter(status="published")
@@ -44,7 +63,7 @@ def post_list(request,category_slug=None,tag_slug=None):
         posts = Post.objects.filter(tags=tag)
 
 
-    paginator = Paginator(posts, 2)
+    paginator = Paginator(posts, 5)
     page = request.GET.get('page')
     posts = paginator.get_page(page)  
     context = {
@@ -64,7 +83,7 @@ def post_details(request, id, slug):
     post = get_object_or_404(Post,id=id,slug=slug)
     top_posts = Post.published.all().order_by('-created')[:3]
     related_posts = Post.published.filter(category=post.category).exclude(id=id)[:4]
-
+    page_views = page_view(post)
     categories = get_category_count() 
     tags = Tag.objects.all()
     read_time = len(post.body.split())//50
@@ -103,6 +122,7 @@ def post_details(request, id, slug):
         'tags':tags,
         'comments': comments,
         'comment_form': comment_form,
+        'page_views':page_views,
 
     }
 

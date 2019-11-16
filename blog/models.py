@@ -40,7 +40,6 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-    
 
 
 class Post(models.Model):
@@ -66,6 +65,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     restrict_comment= models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.title
@@ -97,3 +97,10 @@ class Comment(models.Model):
     def __str__(self):
         return self.post.title + ' by' + self.user.username
 
+
+class PageView(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    hits = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.post.title} views {self.hits} times'
