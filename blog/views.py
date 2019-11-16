@@ -10,13 +10,25 @@ from .forms import *
 # Create your views here.
 
 
+# def get_author(user):
+#     qs = Author.objects.filter(user=user)
+#     if qs.exists():
+#         return qs[0]
+#     return None
+
+
+def get_category_count():
+    queryset = Category.objects.values("name","slug").annotate(Count("categories")) 
+    return queryset
+
+
 
 def post_list(request,category_slug=None,tag_slug=None):
     posts = Post.objects.filter(status="published")
     # posts = Post.published.all()
     top_posts = Post.published.all().order_by('-created')[:3]
     # categories = Category.objects.all()
-    categories = Category.objects.values("name","slug").annotate(Count("categories")) 
+    categories = get_category_count()
     tags = Tag.objects.all()
 
     category = None
@@ -53,7 +65,7 @@ def post_details(request, id, slug):
     top_posts = Post.published.all().order_by('-created')[:3]
     related_posts = Post.published.filter(category=post.category).exclude(id=id)[:4]
 
-    categories = Category.objects.values("name","slug").annotate(Count("categories")) 
+    categories = get_category_count() 
     tags = Tag.objects.all()
     read_time = len(post.body.split())//50
     
@@ -127,7 +139,7 @@ def search_post(request):
     posts = Post.published.all()
     top_posts = Post.published.all().order_by('-created')[:3]
     search = request.GET.get('q')
-    categories = Category.objects.values("name","slug").annotate(Count("categories")) 
+    categories = get_category_count() 
     tags = Tag.objects.all()
     
     if search:
